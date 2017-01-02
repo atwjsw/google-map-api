@@ -1,0 +1,122 @@
+#Google Maps API 教程
+
+- 在本教程中我们将学习如何使用谷歌地图API V3创建交互式地图。
+- API = 应用程序编程接口（Application programming interface）。
+- API（Application Programming Interface，应用编程接口）其实就是操作系统留给应用程序的一个调用接口，应用程序通过调用操作系统的 API 而使操作系统去执行应用程序的命令（动作）。
+
+#Google 地图API Key
+AIzaSyD82GL3IcDxb4_x1XZUFIdQjJTwr2diiIY
+
+#API解释
+- <!DOCTYPE html>: 大多数浏览器使用 "标准模式" 的 HTML5 文档渲染页面，这就意味着你的应用是兼容各大浏览器的。
+- 将google生成的 API key 放置于 key 参数中(key=YOUR_API_KEY)。
+- The sensor 参数是必须的，该参数用于指明应用程序是否使用一个传感器 (类似 GPS 导航) 来定位用户的位置。参数值可以设置为 true 或者 false。
+
+#定义地图属性
+在初始化地图前，我们需要先创建一个 Map 属性对象来定义一些地图的属性：
+var mapProp = {
+  center:new google.maps.LatLng(51.508742,-0.120850),
+  zoom:7,
+  mapTypeId: google.maps.MapTypeId.ROADMAP
+};
+
+- google.maps.MapTypeId.HYBRID：显示卫星图像的主要街道透明层
+- google.maps.MapTypeId.ROADMAP：显示普通的街道地图
+- google.maps.MapTypeId.SATELLITE：显示卫星图像
+- google.maps.MapTypeId.TERRAIN：显示带有自然特征（如地形和植被）的地图
+
+#Google 地图 - 叠加层
+- 叠加层是地图上绑定到经度/纬度坐标的对象，会随您拖动或缩放地图而移动。Google 地图 API 有如下几种叠加层：
+- 地图上的点使用标记来显示，通常显示自定义图标。标记是 GMarker 类型的对象，并且可以利用 GIcon 类型的对象来自定义图标。
+- 地图上的线使用折线（表示点的集合）来显示。线是类型为 GPolyline 的对象。
+- 图上的区域显示为多边形（如果是任意形状的区域）或底面叠加层（如果是矩形区域）。多边形类似于闭合的折线，因此可以是任何形状。地面叠加层通常用于地图上与图块有直接或间接关联的区域。
+- 地图本身使用图块叠加层显示。如果您有自己的系列图块，可以使用 GTileLayerOverlay 类来改变地图上已有的图块，甚至可以使用 GMapType 来创建您自己的地图类型。
+- 信息窗口也是一种特殊的叠加层。但是请注意，信息窗口会自动添加到地图中，并且地图只能添加一个类型为 GInfoWindow 的对象。
+
+#Google 地图 - 添加标记
+记标识地图上的点。默认情况下，它们使用 G_DEFAULT_ICON（您也可以指定自定义图标）。GMarker 构造函数将 GLatLng 和 GMarkerOptions（可选）对象作为参数。
+
+#Google 地图 - 图标
+标记可以用自定义的新图标来显示，以替代默认图标:
+
+#Google 地图 - 折线
+GPolyline 对象可在地图上创建线性叠加层。GPolyline 包括一系列点，并创建一系列有序连接这些点的线段。
+折线支持以下属性：
+path - 指定了多个直线的纬度/经度坐标
+strokeColor - 指定直线的十六进制颜色值(格式: "#FFFFFF")
+strokeOpacity - 指定直线的透明度(该值为 0.0 到 1.0)
+strokeWeight - 定义线的宽度,以像素为单位。
+editable - 定义用户是否可编辑直线(true/false)
+
+#Google 地图 - 多边形
+GPolygon 对象类似于 GPolyline 对象，因为它们都包括一系列有序的点。但是，多边形不像折线一样有两个端点，而是设计为定义形成闭环的区域。
+和折线一样，您可以自定义多边形边（线）的颜色、粗细和透明度，以及封闭的填充区域的颜色和透明度。颜色应是十六进制数字 HTML 样式。
+多边形支持以下属性：
+path - 指定多个直线纬度的坐标 (第一个和最后一个坐标是相等的)
+strokeColor - 指定直线的十六进制颜色值(格式: "#FFFFFF")
+strokeOpacity -指定直线的透明度(该值为 0.0 到 1.0)
+strokeWeight - 定义线的宽度,以像素为单位。
+fillColor - 指定闭合区域的十六进制颜色值 (格式: "#FFFFFF")
+fillOpacity - 指定填充颜色的透明度 (该值为 0.0 到 1.0)
+editable - 定义用户是否可编辑直线(true/false)
+
+#Google 地图 - 圆
+圆支持以下属性：
+center - 指定圆的中心点参数 google.maps.LatLng
+radius - 指定圆的半径，以米为单位
+strokeColor - 指定弧线的十六进制颜色值(格式: "#FFFFFF")
+strokeOpacity - 指定弧线的透明度(该值为 0.0 到 1.0)
+strokeWeight -定义线的宽度,以像素为单位。
+fillColor - 指定圆的十六进制颜色值填充值 (格式: "#FFFFFF")
+fillOpacity - 指定填充颜色的透明度 (该值为 0.0 到 1.0)
+定义用户是否可编辑直线(true/false)
+
+#Google 地图 - 信息窗口
+在一个标记上显示一个文本信息窗口：
+
+#Google 地图事件
+点击标记缩放地图 - 绑定在google地图上的事件。
+
+#点击标记缩放地图
+我们仍然使用上一遍文章使用的英国伦敦的地图。点用户点击标记时实现缩放地图的功能(点击标记时绑定地图缩放事件)。
+
+Google 地图 - 默认控件集设置：
+
+当使用一个标准的google地图，它的默认设置如下：
+
+    .Zoom-显示一个滑动条来控制map的Zoom级别
+    .PPan-地图上显示的是一个平底碗样的控件，点击4个角平移地图
+    .MapType-允许用户在map types(roadmap 和 satallite)之间切换
+    .StreetView-显示为一个街景小人图标，可拖拽到地图上某个点来打开街景
+
+#Google 地图 - 更多控件集
+
+除了以上默认控件集,Google还有：
+
+    .Scale-显示地图比例尺
+    .Rotate-显示一个小的圆周图标，可以转动地图
+    .verview Map-从一个广域的视角俯视地图
+
+创建地图时你可以通过设置选项指定哪些控件集显示或者通过调用 setOptions() 来改变地图的设置选项。 
+
+#Google 地图- 基本地图类型
+
+Google Maps API 中提供了以下地图类型：
+    MapTypeId.ROADMAP，用于显示默认的道路地图视图
+    MapTypeId.SATELLITE，用于显示 Google 地球卫星图片
+    MapTypeId.HYBRID，用于同时显示普通视图和卫星视图
+    MapTypeId.TERRAIN，用于根据地形信息显示实际地图。 
+要通过 Map 修改正在使用的地图类型，您可以为其设置 mapTypeId 属性:
+
+#Google 地图- 45° 图像
+
+Google Maps API 针对特定位置支持特殊的 45° 图像。
+
+此类高分辨率图像可提供朝向各基本方向（东南西北）的透视视图。对于支持的地图类型，这些图片还可提供更高的缩放级别。
+
+现有的 google.maps.MapTypeId.SATELLITE 和 google.maps.MapTypeId.HYBRID 地图类型支持高缩放级别的 45° 透视图像（如果有的话）。如果您放大的位置拥有此类图像，那么这些地图类型将会自动通过以下方式更改其视图：
+
+    地图上现有的任何平移控件都将会变更为在现有的导航控件周围添加一个罗盘转轮。您可以通过该罗盘来更改任意 45° 图像的方向，方法是：拖动该罗盘转轮，然后将方向对准包含图像的最近支持方向。
+    一个旋转控件将会间隙显示在现有的平移和缩放控件之间，它可用于将图像围绕支持方向旋转。旋转控件仅支持顺时针方向旋转。
+    以当前位置为中心的 45° 透视图像将会替代卫星图像或混合图像。默认情况下，此类视图会朝向北方。如果您缩小地图，则地图会重新显示默认的卫星图像或混合图像。
+    MapType 控件将启用子菜单切换控件，用于显示 45° 图像。
